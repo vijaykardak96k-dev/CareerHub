@@ -1,0 +1,28 @@
+admin@careerhub.edu
+
+Password@123
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+docker run -d \
+  --name careerhub-postgres \
+  -e POSTGRES_DB=careerhub \
+  -e POSTGRES_USER=careerhub \
+  -e POSTGRES_PASSWORD=careerhub \
+  -p 5432:5432 \
+  -v careerhub-postgres-data:/var/lib/postgresql/data \
+  postgres:16-alpine
