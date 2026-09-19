@@ -1,0 +1,41 @@
+# Environment
+.env
+.env.local
+.env.*.local
+!.env.example
+!.env.docker.example
+!.env.production.example
+
+# Java / Maven
+target/
+*.jar
+*.war
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/timing.properties
+
+# Node
+node_modules/
+dist/
+dist-ssr/
+*.local
+npm-debug.log*
+yarn-error.log*
+.vite/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Runtime
+storage/
+logs/
+*.log
+
+# Kubernetes secrets (only the example is committed)
+k8s/secret.yaml

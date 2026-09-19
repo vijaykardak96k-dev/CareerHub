@@ -1,0 +1,49 @@
+{{- if .Values.postgres.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "careerhub.name" . }}-postgres
+  namespace: {{ include "careerhub.namespace" . }}
+  labels:
+    {{- include "careerhub.labels" . | nindent 4 }}
+spec:
+  clusterIP: None
+  selector:
+    app: {{ include "careerhub.name" . }}-postgres
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: postgres
+---
+{{- end }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "careerhub.name" . }}-backend
+  namespace: {{ include "careerhub.namespace" . }}
+  labels:
+    {{- include "careerhub.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  selector:
+    app: {{ include "careerhub.name" . }}-backend
+  ports:
+    - name: http
+      port: {{ .Values.backend.service.port }}
+      targetPort: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "careerhub.name" . }}-frontend
+  namespace: {{ include "careerhub.namespace" . }}
+  labels:
+    {{- include "careerhub.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  selector:
+    app: {{ include "careerhub.name" . }}-frontend
+  ports:
+    - name: http
+      port: {{ .Values.frontend.service.port }}
+      targetPort: http

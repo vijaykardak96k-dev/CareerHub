@@ -1,0 +1,43 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: careerhub
+  namespace: careerhub
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: careerhub.local
+      http:
+        paths:
+          # The API is served from the same origin as the app, which is why
+          # API_BASE_URL can simply be /api/v1 and CORS stays trivial.
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: careerhub-backend
+                port:
+                  number: 8080
+          - path: /swagger-ui
+            pathType: Prefix
+            backend:
+              service:
+                name: careerhub-backend
+                port:
+                  number: 8080
+          - path: /v3/api-docs
+            pathType: Prefix
+            backend:
+              service:
+                name: careerhub-backend
+                port:
+                  number: 8080
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: careerhub-frontend
+                port:
+                  number: 80

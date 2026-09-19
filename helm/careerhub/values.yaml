@@ -1,0 +1,75 @@
+# Default values for the CareerHub chart.
+# Override with: helm upgrade --install careerhub ./helm/careerhub -f my-values.yaml
+
+nameOverride: ""
+namespace: careerhub
+
+backend:
+  image:
+    repository: vijaykardak/careerhub-backend
+    tag: latest
+    pullPolicy: IfNotPresent
+  replicaCount: 2
+  service:
+    port: 8080
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+  storage:
+    size: 1Gi
+
+frontend:
+  image:
+    repository: vijaykardak/careerhub-frontend
+    tag: latest
+    pullPolicy: IfNotPresent
+  replicaCount: 2
+  service:
+    port: 80
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 300m
+      memory: 256Mi
+
+postgres:
+  enabled: true
+  image: postgres:16-alpine
+  database: careerhub
+  storage:
+    size: 5Gi
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+
+config:
+  # Frontend and API share an origin behind the ingress, so a relative base URL works.
+  apiBaseUrl: /api/v1
+  corsAllowedOrigins: http://careerhub.local
+  jwtExpiration: "86400000"
+  fileStoragePath: /app/storage
+  seedDemoData: "false"
+
+# Supplied at install time. Generate real values, for example:
+#   --set secrets.jwtSecret="$(openssl rand -base64 48)"
+secrets:
+  dbUsername: careerhub
+  dbPassword: change-me
+  jwtSecret: change-me-to-a-long-random-value-at-least-32-chars
+
+ingress:
+  enabled: true
+  className: nginx
+  host: careerhub.local
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"

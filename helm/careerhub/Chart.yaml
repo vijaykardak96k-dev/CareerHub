@@ -1,0 +1,11 @@
+apiVersion: v2
+name: careerhub
+description: CareerHub - Student Career, Internship and Skill Management System
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+keywords:
+  - careerhub
+  - placement
+  - spring-boot
+  - react
